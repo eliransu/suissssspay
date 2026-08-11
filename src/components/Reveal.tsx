@@ -1,23 +1,35 @@
 "use client";
 
-import { useEffect, useRef, useState, type ElementType, type ReactNode } from "react";
+import {
+  useEffect,
+  useRef,
+  useState,
+  type ElementType,
+  type HTMLAttributes,
+  type ReactNode,
+} from "react";
 
 type RevealProps = {
   children: ReactNode;
   className?: string;
   as?: ElementType;
   id?: string;
-};
+} & HTMLAttributes<HTMLElement>;
 
-/** Light scroll reveal. Opacity only. No custom easing. */
+/**
+ * Optional scroll fade-in. Defaults to visible so content is never
+ * stuck invisible without JS or for reduced-motion users.
+ */
 export default function Reveal({
   children,
   className,
   as: Tag = "div",
   id,
+  style,
+  ...rest
 }: RevealProps) {
   const ref = useRef<HTMLElement | null>(null);
-  const [visible, setVisible] = useState(false);
+  const [visible, setVisible] = useState(true);
 
   useEffect(() => {
     const el = ref.current;
@@ -26,6 +38,13 @@ export default function Reveal({
       setVisible(true);
       return;
     }
+
+    if (typeof IntersectionObserver === "undefined") {
+      setVisible(true);
+      return;
+    }
+
+    setVisible(false);
     const observer = new IntersectionObserver(
       ([entry]) => {
         if (entry.isIntersecting) {
@@ -33,7 +52,7 @@ export default function Reveal({
           observer.disconnect();
         }
       },
-      { threshold: 0.1 },
+      { threshold: 0.08 },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -45,9 +64,11 @@ export default function Reveal({
       id={id}
       className={className}
       style={{
-        opacity: visible ? 1 : 0,
+        ...style,
+        opacity: visible ? 1 : 0.01,
         transition: "opacity 200ms ease-out",
       }}
+      {...rest}
     >
       {children}
     </Tag>

@@ -41,28 +41,48 @@ export default function Testimonials() {
 
   return (
     <div>
-      <blockquote className="border-l-2 border-accent pl-5 sm:pl-6">
-        <p className="text-pretty text-lg sm:text-xl leading-relaxed text-ink">
-          &ldquo;{t.quote}&rdquo;
-        </p>
-        <footer className="mt-4 text-sm text-muted">
-          <span className="font-medium text-ink">{t.name}</span>
-          <span className="text-faint"> · </span>
-          {t.role}
-        </footer>
-      </blockquote>
-      <div className="mt-6 flex gap-2">
-        {ITEMS.map((_, idx) => (
+      <div
+        aria-live="polite"
+        aria-atomic="true"
+        className="border-l-2 border-accent pl-5 sm:pl-6"
+      >
+        <blockquote>
+          <p className="text-pretty text-lg sm:text-xl leading-relaxed text-ink">
+            &ldquo;{t.quote}&rdquo;
+          </p>
+          <footer className="mt-4 text-sm text-muted">
+            <cite className="not-italic font-medium text-ink">{t.name}</cite>
+            <span aria-hidden="true" className="text-faint">
+              {" "}
+              ·{" "}
+            </span>
+            <span>{t.role}</span>
+          </footer>
+        </blockquote>
+      </div>
+
+      <div
+        className="mt-6 flex flex-wrap gap-1"
+        role="tablist"
+        aria-label="Testimonials"
+      >
+        {ITEMS.map((item, idx) => (
           <button
             key={idx}
             type="button"
+            role="tab"
+            aria-selected={idx === i}
+            aria-label={`Testimonial from ${item.name}, ${idx + 1} of ${ITEMS.length}`}
             onClick={() => setI(idx)}
-            aria-label={`Show testimonial ${idx + 1}`}
-            aria-current={idx === i}
-            className={`size-2.5 rounded-full border-0 cursor-pointer ${
-              idx === i ? "bg-accent" : "bg-line hover:bg-faint"
-            }`}
-          />
+            className="tap-target inline-flex items-center justify-center size-11 rounded-md border-0 bg-transparent cursor-pointer p-0"
+          >
+            <span
+              className={`block size-2.5 rounded-full ${
+                idx === i ? "bg-accent" : "bg-line"
+              }`}
+              aria-hidden="true"
+            />
+          </button>
         ))}
       </div>
     </div>

@@ -12,6 +12,10 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
+  // Default Next viewport is fine; keep explicit for mobile browsers
+  other: {
+    "format-detection": "telephone=no",
+  },
 };
 
 export default function RootLayout({
