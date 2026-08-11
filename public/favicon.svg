@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="none">
+  <!-- Suisa mark: rust square + geometric E -->
+  <rect width="32" height="32" rx="8" fill="#9a3412"/>
+  <path
+    fill="#ffffff"
+    d="M9 8h14v3.2H12.4v3.1H21V17H12.4v3.2H23V24H9V8z"
+  />
+</svg>
